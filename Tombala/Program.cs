@@ -41,8 +41,8 @@
      {
           char[] sortedCard = (char[])card.Clone();
           Array.Sort(sortedCard);
-          int lp = 0, rp = card.Length;
-          while(lp < rp)
+          int lp = 0, rp = card.Length - 1;
+          while(lp <= rp)
           {
                int mp = lp + (rp - lp) / 2;
                if (sortedCard[mp].Equals(target)) return true;
@@ -52,8 +52,6 @@
                     else lp = mp + 1;
                }
           }
-          // if while loop ends, it means lp = rp.
-          if (sortedCard[lp].Equals(target)) return true;
           return false;
      }
 
