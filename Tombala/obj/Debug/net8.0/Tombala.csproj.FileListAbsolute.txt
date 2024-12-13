@@ -1,0 +1,14 @@
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\bin\Debug\net8.0\Tombala.exe
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\bin\Debug\net8.0\Tombala.deps.json
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\bin\Debug\net8.0\Tombala.runtimeconfig.json
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\bin\Debug\net8.0\Tombala.dll
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\bin\Debug\net8.0\Tombala.pdb
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.AssemblyInfoInputs.cache
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.AssemblyInfo.cs
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.dll
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\refint\Tombala.dll
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.pdb
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.genruntimeconfig.cache
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\ref\Tombala.dll
