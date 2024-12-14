@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Tombala")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c9e6184aeb315791b097ec1f2c18b91d4193102")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8bf19c8ed4ac9969306bef10da56e0333f222788")]
 [assembly: System.Reflection.AssemblyProductAttribute("Tombala")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Tombala")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

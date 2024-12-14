@@ -84,6 +84,7 @@
                if (player2[c].Equals('0')) Console.Write(" ");
                else Console.Write(player2[c] + " ");
           }
+          Console.SetCursorPosition(0, 3);
      }
 
      static char[] FindMinAndMaxLetter(char[]card, byte lower, byte upper)
@@ -98,8 +99,15 @@
           return [minChar, maxChar];
      }
 
-
-
+     static void SetMaxIndexToZero(ref char[] playercard) // When the Joker is drawn, delete Max from the
+     {                                                    //                                 player's card
+          byte maxIndex = 0;
+          for (byte i = 1; i < 8; i++)
+          {
+               if(playercard[i] > playercard[maxIndex]) maxIndex = i;
+          }
+          playercard[maxIndex] = '0';
+     }
 
      static void Main()
      {
@@ -120,7 +128,7 @@
                                                        // it is changed to '0' in these arrays. Since we only find 
                                                        // min and max once, changing it to '0' will not cause any problem
                                                        // with having the lowest ASCII code
-
+          int currScore; // vowel: 3 ; constanst: 2
 
 
 
@@ -134,7 +142,30 @@
                               && remaining_letters > 0) // Keep drawing new letter from the bag
                                                        // until someone makes "Tombala" or the bag is empty
           {
+               Console.Write("Press enter to draw new letter");
+               Console.ReadLine();
+               char drawnToken = DrawLetterFromBag();
 
-          }
+               if (drawnToken.Equals('1')) // Joker is drawn, each player deletes the max letter on their cards
+               {
+                    SetMaxIndexToZero(ref player1); // Remove max letter from the player's card
+                    p1l2_min_and_max[1] = '0'; // Remove max letter from the min-max array, where
+                                               // we hold the "min and max" letter of each line.
+                                               // Note: The biggest letter on a card 
+                                               //       is ALWAYS on the bottom row.
+                    SetMaxIndexToZero(ref player2);
+                    p2l2_min_and_max[1] = '0';
+               }
+
+               else // A regular letter is drawn
+               {
+
+               }
+
+
+               
+          }  
      }
 }
+/* temp: if (drawnToken.Equals('A') || drawnToken.Equals('E') || drawnToken.Equals('I') ||
+                    drawnToken.Equals('O') || drawnToken.Equals('U'))   */
