@@ -12,3 +12,4 @@ C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\re
 C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.pdb
 C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.genruntimeconfig.cache
 C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\ref\Tombala.dll
+C:\Users\Lenovo\OneDrive\Desktop\Projects\C#\Tombala\Tombala\obj\Debug\net8.0\Tombala.sourcelink.json
