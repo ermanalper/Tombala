@@ -151,6 +151,8 @@
 
      static void Main()
      {
+          Console.Clear();
+          bool firstChinko = false;
           //   vvv VARIABLES vvv
 
           int p1_l1 = 0, p1_l2 = 0, p2_l1 = 0, p2_l2 = 0; // Player1 Line1 .. etc.
@@ -159,6 +161,7 @@
 
           int player1Score = 0, player2Score = 0;
           int multiplier = 30;
+          bool p1l1extra = true, p1l2extra = true, p2l1extra = true, p2l2extra = true;
 
           p1l1_min_and_max = FindMinAndMaxLetter(player1, 0); // These hold the "min and max" 
           p1l2_min_and_max = FindMinAndMaxLetter(player1, 1); // letters on each row
@@ -177,9 +180,10 @@
           player2 = Initialize(); // 8 letters on both arrays that satisfy the conditions
 
           Console.SetCursorPosition(0, 3);
-          Console.Write("Press enter to draw a new letter");
+          Display();
+          Console.Write("Press enter to start");
 
-
+          Console.ReadLine();
           while (p1_l1 + p1_l2 < 8 && p2_l1 + p2_l2 < 8
                               && remaining_letters > 0) // Keep drawing new letter from the bag
                                                         // until someone makes "Tombala" or the bag is empty
@@ -192,9 +196,9 @@
                     Console.SetCursorPosition(0, 3);
                     Console.Write("Press enter to draw a new letter");
                }
-               Console.ReadLine();
+
                char drawnToken = DrawLetterFromBag();
-               
+
                Console.SetCursorPosition(0, 2);
                Console.Write($"{31 - multiplier}. selected letter: {drawnToken}");
                int p1CurrScore = 0, p2CurrScore = 0;
@@ -231,6 +235,8 @@
                          p1CurrScore = GivePoints(drawnToken, multiplier);
                          p1HasPts = true;
                          player1[letterIndexOnP1Card[0], letterIndexOnP1Card[1]] = '0';
+                         if(drawnToken < 'N') p1_l1++;
+                         else p1_l2++;
                     }
 
                     sbyte[] letterIndexOnP2Card = Search(player2, drawnToken);
@@ -240,12 +246,11 @@
                          p2CurrScore = GivePoints(drawnToken, multiplier);
                          p2HasPts = true;
                          player2[letterIndexOnP2Card[0], letterIndexOnP2Card[1]] = '0';
+                         if(drawnToken < 'N') p2_l1++;
+                         else p2_l2++;
                     }
                     SetTargetToZeroOnMinMaxArray(drawnToken); ; // if the letter is an inital min-max,
                                                                 // delete it from the min-max array
-
-
-
 
                }
                player1Score += p1CurrScore;
@@ -258,12 +263,72 @@
                if (p2CurrScore != 0)
                     Console.WriteLine($"Player 2 gained {p2CurrScore} points");
 
+               if(p1l1extra && p1l1_min_and_max[0].Equals('0') && p1l1_min_and_max[1].Equals('0'))
+               {
+                    player1Score += 100;
+                    Console.WriteLine("Player 1 gained 100 points");
+                    p1l1extra = false;
+               }
+               else if(p1l2_min_and_max[0].Equals('0') && p1l2_min_and_max[1].Equals('0') && p1l2extra)
+               {
+                    player1Score += 100;
+                    Console.WriteLine("Player 1 gained 100 points");
+                    p1l2extra = false;
+               }
+               if(p2l1extra && p2l1_min_and_max[0].Equals('0') && p2l1_min_and_max[1].Equals('0'))
+               {
+                    player2Score += 100;
+                    Console.WriteLine("Player 2 gained 100 points");
+                    p2l1extra = false;
+               }
+               else if(p2l2extra && p2l2_min_and_max[0].Equals('0') && p2l2_min_and_max[1].Equals('0'))
+               {
+                    player2Score += 100;
+                    Console.WriteLine("Player 2 gained 100 points");
+                    p2l2extra = false;
+               }
+
+               if (!firstChinko && (p1_l1 == 4 || p1_l2 == 4 || p2_l2 == 4 || p2_l1 == 4) )
+               {
+                    Console.WriteLine();
+                    if ((p1_l1 == 4 || p1_l2 == 4) && (p2_l2 == 4 || p2_l1 == 4))
+                    {
+                         Console.Write("Tie on First Çinko. Nobody wins the prize");
+                    }
+                    else if (p1_l1 == 4 || p1_l2 == 4) 
+                    {
+                         Console.Write("First Çinko - Player1 wins the prize and gains 150 pts");
+                         player1Score += 150;
+                    }
+                    else
+                    {
+                         Console.Write("First Çinko - Player2 wins the prize and gains 150 pts");
+                         player2Score += 150;
+                    }
+                    firstChinko = true;
+                    Console.WriteLine();
+               }
+               
+
+               
+
+               Console.SetCursorPosition(27, 0);
+               Console.Write($"Player 1 score: {player1Score}");
+               Console.SetCursorPosition(27, 1);
+               Console.Write($"Player 2 score: {player2Score}");
+               Console.SetCursorPosition(0,7);
+               
+               
+               
+               
+               
+
                Console.ReadLine();
 
                multiplier--;
 
-
-
           }
+
+          
      }
 }
