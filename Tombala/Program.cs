@@ -42,13 +42,15 @@
           return init;
      }
 
-     static sbyte Search(char[] card, char target)      // Note: Since the array is only 8 elements long,                              
-     {                                                  //       lineer search has a better time complexity
-          for (sbyte i = 0; i < 8; i++)                  //       than binary search, which sorts the array
-               if (card[i].Equals(target)) return i;    //       before searching.
-          return -1;                                    //       Lineer Search: O(n)   --> 8 ops. max
-     }                                                  //       Binary Search: O(n log(n)) + O(log(n))  --> 27 ops max
-                                                        //       RETURNS THE INDEX OF THE TARGET, -1 IF IT DOES NOT EXIST
+     static sbyte[] Search(char[,] card, char target)
+     {                                                                // Linear Search has better time complexity
+          for (sbyte i = 0; i < 2; i++)                               // than Binary Search with UNSORTED 8 elements
+               for (sbyte j = 0; j < 4; j++)
+                    if (card[i, j].Equals(target)) return [i, j];     // Returns the index of the letter, [-1, -1] if 
+                                                                      // the player's card does not have the letter
+          return [-1, -1];
+     }
+
      static char DrawLetterFromBag() // draws a letter from the bag, might be Joker ('1')
      {
           bool newToken = false;
@@ -66,6 +68,7 @@
      static void Display()
      {
           Console.Clear();
+          Console.SetCursorPosition(0, 0);
           char[,] player = player1;
           for (int p = 0; p < 2; p++)
           {
@@ -81,7 +84,7 @@
                player = player2;
                Console.SetCursorPosition(15, 0);
           }
-          Console.SetCursorPosition(0, 4);
+          Console.SetCursorPosition(0, 3);
      }
 
      static char[] FindMinAndMaxLetter(char[,] card, byte mode) // Upper line: Mode = 0
@@ -128,10 +131,22 @@
           // does nothing if the letter is not an initial min-max
      }
      static void SetTargetToZeroOnMinMaxArray(char targ) // if the target is the same letter
-                                                       // (use if the drawn token is not Joker)
+                                                         // (use if the drawn token is not Joker)
      {
           SetTargetToZeroOnMinMaxArray(targ, ref p1l1_min_and_max, ref p1l2_min_and_max);
           SetTargetToZeroOnMinMaxArray(targ, ref p2l1_min_and_max, ref p2l2_min_and_max);
+          // does nothing if the letter is not an initial min-max
+     }
+
+     static int GivePoints(char token, int scoremultiplier)
+     {
+          if (token.Equals('A') || token.Equals('E') || token.Equals('I') ||
+               token.Equals('O') || token.Equals('U'))
+          { // 3 x score multiplier (vowel)
+               return scoremultiplier * 3;
+          }
+          else
+               return scoremultiplier * 2;
      }
 
      static void Main()
@@ -149,11 +164,10 @@
           p1l2_min_and_max = FindMinAndMaxLetter(player1, 1); // letters on each row
           p2l1_min_and_max = FindMinAndMaxLetter(player2, 0); // [minLetter, maxLetter]
           p2l2_min_and_max = FindMinAndMaxLetter(player2, 1); // The function is only used at the beginning.
-                                                             // When the min or max value is drawn from the bag,
-                                                             // it is changed to '0' in these arrays. Since we only find 
-                                                             // min and max once, changing it to '0' will not cause any problem
-                                                             // with having the lowest ASCII code
-          int currScore; // vowel: 3 ; constanst: 2
+                                                              // When the min or max value is drawn from the bag,
+                                                              // it is changed to '0' in these arrays. Since we only find 
+                                                              // min and max once, changing it to '0' will not cause any problem
+                                                              // with having the lowest ASCII code
 
 
 
@@ -161,15 +175,29 @@
 
           player1 = Initialize();
           player2 = Initialize(); // 8 letters on both arrays that satisfy the conditions
-          Display();
+
+          Console.SetCursorPosition(0, 3);
+          Console.Write("Press enter to draw a new letter");
+
 
           while (p1_l1 + p1_l2 < 8 && p2_l1 + p2_l2 < 8
                               && remaining_letters > 0) // Keep drawing new letter from the bag
                                                         // until someone makes "Tombala" or the bag is empty
           {
-               Console.Write("Press enter to draw a new letter");
+               Display();
+               bool p1HasPts = false;
+               bool p2HasPts = false;
+               if (multiplier == 30)
+               {
+                    Console.SetCursorPosition(0, 3);
+                    Console.Write("Press enter to draw a new letter");
+               }
                Console.ReadLine();
                char drawnToken = DrawLetterFromBag();
+               
+               Console.SetCursorPosition(0, 2);
+               Console.Write($"{31 - multiplier}. selected letter: {drawnToken}");
+               int p1CurrScore = 0, p2CurrScore = 0;
 
                if (drawnToken.Equals('1')) // Joker is drawn, each player deletes the max letter on their cards
                {
@@ -181,21 +209,61 @@
                     SetTargetToZeroOnMinMaxArray(p2Max, ref p2l1_min_and_max, ref p2l2_min_and_max);// "min-max" array (if exists)
 
                     if (p1Max < 'N') p1_l1++;  // counts removed letters on each row (4 = çinko)
-                    else p2_l2++;
+                    else p1_l2++;
 
                     if (p2Max < 'N') p2_l1++;
                     else p2_l2++;
+                    p1CurrScore = GivePoints(p1Max, multiplier);
+                    p2CurrScore = GivePoints(p2Max, multiplier);
+                    p1HasPts = true;
+                    p2HasPts = true;
+
                }
 
                else // A regular letter is drawn
                {
+                    sbyte[] letterIndexOnP1Card = Search(player1, drawnToken);
+                    if (letterIndexOnP1Card[0] == -1) { } // player does not have the letter on their card
+                                                          // -> do nothing this round
+
+                    else // player has this letter on their card
+                    {
+                         p1CurrScore = GivePoints(drawnToken, multiplier);
+                         p1HasPts = true;
+                         player1[letterIndexOnP1Card[0], letterIndexOnP1Card[1]] = '0';
+                    }
+
+                    sbyte[] letterIndexOnP2Card = Search(player2, drawnToken);
+                    if (letterIndexOnP2Card[0] == -1) { }
+                    else
+                    {
+                         p2CurrScore = GivePoints(drawnToken, multiplier);
+                         p2HasPts = true;
+                         player2[letterIndexOnP2Card[0], letterIndexOnP2Card[1]] = '0';
+                    }
+                    SetTargetToZeroOnMinMaxArray(drawnToken); ; // if the letter is an inital min-max,
+                                                                // delete it from the min-max array
+
+
+
 
                }
+               player1Score += p1CurrScore;
+               player2Score += p2CurrScore;
+               Console.SetCursorPosition(0, 3);
+               Console.Write("                                                            "); ; //deletes, unimportant
+               Console.SetCursorPosition(0, 3);
+               if (p1CurrScore != 0)
+                    Console.WriteLine($"Player 1 gained {p1CurrScore} points");
+               if (p2CurrScore != 0)
+                    Console.WriteLine($"Player 2 gained {p2CurrScore} points");
+
+               Console.ReadLine();
+
+               multiplier--;
 
 
 
           }
      }
 }
-/* temp: if (drawnToken.Equals('A') || drawnToken.Equals('E') || drawnToken.Equals('I') ||
-                    drawnToken.Equals('O') || drawnToken.Equals('U'))   */
