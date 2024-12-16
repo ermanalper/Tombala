@@ -328,6 +328,24 @@
                multiplier--;
 
           }
+          Console.Clear();
+          Console.SetCursorPosition(0,0);
+          if(p1_l1 + p1_l2 == 8 && p2_l1 + p2_l2 == 8)
+          {
+               if(player1Score > player2Score)
+                    Console.WriteLine("Player1 has won by points");
+               else if (player1Score < player2Score)
+                    Console.WriteLine("Player2 has won by points");
+               else Console.WriteLine("Tie!!");
+          }
+          else if (p1_l1 + p1_l2 == 8)
+               Console.WriteLine("Player1 won by TOMBALA");
+          else Console.WriteLine("Player2 won by TOMBALA");
+
+          Console.WriteLine($"The game is over after {31 - multiplier} steps.");
+          Console.WriteLine();
+          Console.Write("Good Bye!");
+          Console.ReadLine();
 
           
      }
