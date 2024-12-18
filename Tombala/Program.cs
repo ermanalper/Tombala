@@ -163,6 +163,14 @@
           int multiplier = 30;
           bool p1l1extra = true, p1l2extra = true, p2l1extra = true, p2l2extra = true;
 
+          
+
+
+
+          //   ^^^ VARIABLES ^^^
+
+          player1 = Initialize();
+          player2 = Initialize(); // 8 letters on both arrays that satisfy the conditions
           p1l1_min_and_max = FindMinAndMaxLetter(player1, 0); // These hold the "min and max" 
           p1l2_min_and_max = FindMinAndMaxLetter(player1, 1); // letters on each row
           p2l1_min_and_max = FindMinAndMaxLetter(player2, 0); // [minLetter, maxLetter]
@@ -171,13 +179,7 @@
                                                               // it is changed to '0' in these arrays. Since we only find 
                                                               // min and max once, changing it to '0' will not cause any problem
                                                               // with having the lowest ASCII code
-
-
-
-          //   ^^^ VARIABLES ^^^
-
-          player1 = Initialize();
-          player2 = Initialize(); // 8 letters on both arrays that satisfy the conditions
+           
 
           Console.SetCursorPosition(0, 3);
           Display();
@@ -189,8 +191,6 @@
                                                         // until someone makes "Tombala" or the bag is empty
           {
                Display();
-               bool p1HasPts = false;
-               bool p2HasPts = false;
                if (multiplier == 30)
                {
                     Console.SetCursorPosition(0, 3);
@@ -200,7 +200,9 @@
                char drawnToken = DrawLetterFromBag();
 
                Console.SetCursorPosition(0, 2);
-               Console.Write($"{31 - multiplier}. selected letter: {drawnToken}");
+               if(!drawnToken.Equals('1'))
+                    Console.Write($"{31 - multiplier}. selected letter: {drawnToken}");
+               else Console.Write($"{31 - multiplier}. selected letter: JOKER");
                int p1CurrScore = 0, p2CurrScore = 0;
 
                if (drawnToken.Equals('1')) // Joker is drawn, each player deletes the max letter on their cards
@@ -219,8 +221,6 @@
                     else p2_l2++;
                     p1CurrScore = GivePoints(p1Max, multiplier);
                     p2CurrScore = GivePoints(p2Max, multiplier);
-                    p1HasPts = true;
-                    p2HasPts = true;
 
                }
 
@@ -233,7 +233,6 @@
                     else // player has this letter on their card
                     {
                          p1CurrScore = GivePoints(drawnToken, multiplier);
-                         p1HasPts = true;
                          player1[letterIndexOnP1Card[0], letterIndexOnP1Card[1]] = '0';
                          if(drawnToken < 'N') p1_l1++;
                          else p1_l2++;
@@ -244,7 +243,6 @@
                     else
                     {
                          p2CurrScore = GivePoints(drawnToken, multiplier);
-                         p2HasPts = true;
                          player2[letterIndexOnP2Card[0], letterIndexOnP2Card[1]] = '0';
                          if(drawnToken < 'N') p2_l1++;
                          else p2_l2++;
@@ -309,7 +307,6 @@
                     Console.WriteLine();
                }
                
-
                
 
                Console.SetCursorPosition(27, 0);
@@ -342,7 +339,7 @@
                Console.WriteLine("Player1 won by TOMBALA");
           else Console.WriteLine("Player2 won by TOMBALA");
 
-          Console.WriteLine($"The game is over after {31 - multiplier} steps.");
+          Console.WriteLine($"The game is over after {30 - multiplier} steps.");
           Console.WriteLine();
           Console.Write("Good Bye!");
           Console.ReadLine();
